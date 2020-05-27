@@ -20,6 +20,8 @@ public class PaymentMethodHeaderView extends FrameLayout {
 
     /* default */ final ImageView arrow;
 
+    /* default */ final PulseRippleView rippleContent;
+
     /* default */ final ImageView helper;
 
     /* default */ final Animation rotateUp;
@@ -51,6 +53,7 @@ public class PaymentMethodHeaderView extends FrameLayout {
         titleView = findViewById(R.id.installments_title);
         titlePager = findViewById(R.id.title_pager);
         arrow = findViewById(R.id.arrow);
+        rippleContent = findViewById(R.id.pulse_container);
         helper = findViewById(R.id.helper);
         titleView.setVisibility(GONE);
     }
@@ -120,6 +123,9 @@ public class PaymentMethodHeaderView extends FrameLayout {
 
     public void setArrowVisibility(final boolean visible) {
         arrow.setAlpha(visible ? 1.0f : 0.0f);
+        if (visible) {
+            rippleContent.startRippleAnimation();
+        }
     }
 
     public void setHelperVisibility(final boolean visible) {
