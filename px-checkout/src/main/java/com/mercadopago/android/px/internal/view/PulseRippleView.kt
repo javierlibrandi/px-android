@@ -63,7 +63,9 @@ class PulseRippleView : RelativeLayout {
         if (rippleType == DEFAULT_FILL_TYPE) {
             rippleStrokeWidth = 0f
             paint!!.style = Paint.Style.FILL
-        } else paint!!.style = Paint.Style.STROKE
+        } else {
+            paint!!.style = Paint.Style.STROKE
+        }
         paint!!.color = rippleColor
         rippleParams = LayoutParams((2 * (rippleRadius + rippleStrokeWidth)).toInt(), (2 * (rippleRadius + rippleStrokeWidth)).toInt())
         rippleParams!!.addRule(CENTER_IN_PARENT, TRUE)
@@ -86,13 +88,6 @@ class PulseRippleView : RelativeLayout {
             scaleYAnimator.startDelay = i * rippleDelay.toLong()
             scaleYAnimator.duration = rippleDurationTime.toLong()
             animatorList!!.add(scaleYAnimator)
-            /*
-            val alphaAnimator = ObjectAnimator.ofFloat(rippleView, "Alpha", 1.0f, 0.2f)
-            alphaAnimator.repeatCount = ObjectAnimator.INFINITE
-            alphaAnimator.repeatMode = ObjectAnimator.REVERSE
-            alphaAnimator.startDelay = i * rippleDelay.toLong()
-            alphaAnimator.duration = rippleDurationTime.toLong()
-            animatorList!!.add(alphaAnimator)*/
         }
         animatorSet!!.playTogether(animatorList)
     }
