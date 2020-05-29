@@ -76,22 +76,23 @@ class PulseRippleView : RelativeLayout {
             rippleViewList.add(rippleView)
             val scaleXAnimator = ObjectAnimator.ofFloat(rippleView, "ScaleX", 1.0f, rippleScale)
             scaleXAnimator.repeatCount = ObjectAnimator.INFINITE
-            scaleXAnimator.repeatMode = ObjectAnimator.RESTART
+            scaleXAnimator.repeatMode = ObjectAnimator.REVERSE
             scaleXAnimator.startDelay = i * rippleDelay.toLong()
             scaleXAnimator.duration = rippleDurationTime.toLong()
             animatorList!!.add(scaleXAnimator)
             val scaleYAnimator = ObjectAnimator.ofFloat(rippleView, "ScaleY", 1.0f, rippleScale)
             scaleYAnimator.repeatCount = ObjectAnimator.INFINITE
-            scaleYAnimator.repeatMode = ObjectAnimator.RESTART
+            scaleYAnimator.repeatMode = ObjectAnimator.REVERSE
             scaleYAnimator.startDelay = i * rippleDelay.toLong()
             scaleYAnimator.duration = rippleDurationTime.toLong()
             animatorList!!.add(scaleYAnimator)
-            val alphaAnimator = ObjectAnimator.ofFloat(rippleView, "Alpha", 1.0f, 0f)
+            /*
+            val alphaAnimator = ObjectAnimator.ofFloat(rippleView, "Alpha", 1.0f, 0.2f)
             alphaAnimator.repeatCount = ObjectAnimator.INFINITE
-            alphaAnimator.repeatMode = ObjectAnimator.RESTART
+            alphaAnimator.repeatMode = ObjectAnimator.REVERSE
             alphaAnimator.startDelay = i * rippleDelay.toLong()
             alphaAnimator.duration = rippleDurationTime.toLong()
-            animatorList!!.add(alphaAnimator)
+            animatorList!!.add(alphaAnimator)*/
         }
         animatorSet!!.playTogether(animatorList)
     }
@@ -113,15 +114,18 @@ class PulseRippleView : RelativeLayout {
             for (rippleView in rippleViewList) {
                 rippleView.visibility = View.VISIBLE
             }
-            animatorSet!!.start()
+            animatorSet?.start()
             isRippleAnimationRunning = true
         }
     }
 
     fun stopRippleAnimation() {
         if (isRippleAnimationRunning) {
-            animatorSet!!.end()
+            animatorSet?.end()
             isRippleAnimationRunning = false
+        }
+        for (rippleView in rippleViewList) {
+            rippleView.visibility = View.GONE
         }
     }
 

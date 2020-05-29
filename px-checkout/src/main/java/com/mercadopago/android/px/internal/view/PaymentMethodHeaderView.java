@@ -125,6 +125,8 @@ public class PaymentMethodHeaderView extends FrameLayout {
         arrow.setAlpha(visible ? 1.0f : 0.0f);
         if (visible) {
             rippleContent.startRippleAnimation();
+        } else {
+            rippleContent.stopRippleAnimation();
         }
     }
 

@@ -73,14 +73,15 @@
 
     <com.mercadopago.android.px.internal.view.PulseRippleView
         android:id="@+id/pulse_container"
-        android:layout_width="60dp"
+        android:layout_width="62dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical|end"
+        android:background="@drawable/px_background_opacity"
         android:gravity="center"
-        app:rb_color="#009ee3"
+        app:rb_color="#4c009ee3"
         app:rb_radius="12dp"
-        app:rb_rippleAmount="3"
-        app:rb_duration="3000"
+        app:rb_rippleAmount="1"
+        app:rb_duration="1000"
         app:rb_scale="2">
 
         <ImageView
@@ -88,10 +89,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="center"
+            android:layout_marginEnd="@dimen/px_xs_margin"
             android:layout_centerInParent="true"
-            android:background="@drawable/px_arrow_background"
-            android:src="@drawable/px_arrow_down"
-            android:tint="@color/ui_components_primary_color"/>
+            android:background="@null"
+            android:src="@drawable/px_circle_arrow"/>
 
     </com.mercadopago.android.px.internal.view.PulseRippleView>
 
