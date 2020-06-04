@@ -217,5 +217,7 @@
     <!-- Colors used by Money in -->
     <color name="rippelColor">#0099CC</color>
 
+    <color name="px_circle_arrow_background">#EEEEEE</color>
+
 
 </resources>

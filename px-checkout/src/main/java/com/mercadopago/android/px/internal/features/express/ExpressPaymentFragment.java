@@ -70,6 +70,8 @@ import com.mercadopago.android.px.model.PayerCost;
 import com.mercadopago.android.px.model.Site;
 import com.mercadopago.android.px.model.StatusMetadata;
 import com.mercadopago.android.px.model.internal.DisabledPaymentMethod;
+import com.mercadopago.android.px.model.internal.experiments.Experiment;
+import com.mercadopago.android.px.internal.experiments.PulseVariant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -242,6 +244,10 @@ public class ExpressPaymentFragment extends Fragment implements ExpressPayment.V
         slideUpAndFadeAnimation.setAnimationListener(new FadeAnimationListener(paymentMethodPager, VISIBLE));
 
         paymentMethodHeaderView = view.findViewById(R.id.installments_header);
+
+        final Experiment experiment = presenter.findExperimentBy(PulseVariant.Pulse.INSTANCE);
+        paymentMethodHeaderView.configureExperiments(experiment);
+
         paymentMethodHeaderView.setListener(new PaymentMethodHeaderView.Listener() {
             @Override
             public void onDescriptorViewClicked() {
@@ -362,6 +368,7 @@ public class ExpressPaymentFragment extends Fragment implements ExpressPayment.V
             session.getMercadoPagoESC(),
             MapperProvider.INSTANCE.getPaymentMethodDrawableItemMapper(getContext()),
             session.getCongratsRepository(),
+            session.getExperimentsRepository(),
             configurationModule.getPayerComplianceRepository(),
             Session.getInstance().getNetworkModule().getSessionIdProvider(),
             Session.getInstance().getNetworkModule().getFlowIdProvider(),

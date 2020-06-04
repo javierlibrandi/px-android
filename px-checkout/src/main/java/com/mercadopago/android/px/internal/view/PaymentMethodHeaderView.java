@@ -10,7 +10,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.mercadopago.android.px.R;
+import com.mercadopago.android.px.internal.experiments.PulseVariant;
+import com.mercadopago.android.px.internal.experiments.VariantType;
+import com.mercadopago.android.px.internal.view.experiments.installment.PulseExperimentView;
 import com.mercadopago.android.px.internal.viewmodel.GoingToModel;
+import com.mercadopago.android.px.model.internal.experiments.Experiment;
 
 import static com.mercadopago.android.px.internal.util.ViewUtils.hasEndedAnim;
 
@@ -18,7 +22,7 @@ public class PaymentMethodHeaderView extends FrameLayout {
 
     /* default */ final View titleView;
 
-    /* default */ final ImageView arrow;
+    /* default */ PulseExperimentView arrow;
 
     /* default */ final PulseRippleView rippleContent;
 
@@ -52,7 +56,7 @@ public class PaymentMethodHeaderView extends FrameLayout {
         rotateDown = AnimationUtils.loadAnimation(context, R.anim.px_rotate_down);
         titleView = findViewById(R.id.installments_title);
         titlePager = findViewById(R.id.title_pager);
-        arrow = findViewById(R.id.arrow);
+        arrow = findViewById(R.id.pulse_experiment);
         rippleContent = findViewById(R.id.pulse_container);
         helper = findViewById(R.id.helper);
         titleView.setVisibility(GONE);
@@ -75,14 +79,30 @@ public class PaymentMethodHeaderView extends FrameLayout {
                 listener.onDisabledDescriptorViewClick();
             } else if (hasEndedAnim(arrow)) {
                 if (titleView.getVisibility() == VISIBLE) {
-                    arrow.startAnimation(rotateDown);
+                    arrow.animateArrow(rotateDown);
                     listener.onInstallmentsSelectorCancelClicked();
                 } else {
-                    arrow.startAnimation(rotateUp);
+                    arrow.animateArrow(rotateUp);
                     listener.onDescriptorViewClicked();
                 }
             }
         });
+    }
+
+    public void configureExperiments(@Nullable final Experiment experiment) {
+        if (experiment != null) {
+            loadExperimentView();
+        } else {
+            loadDefaultExperimentView();
+        }
+    }
+
+    private void loadExperimentView() {
+        arrow.applyVariant(PulseVariant.Pulse.INSTANCE);
+    }
+
+    private void loadDefaultExperimentView() {
+        arrow.applyVariant(PulseVariant.Control.INSTANCE);
     }
 
     public void showInstallmentsListTitle() {
@@ -92,7 +112,7 @@ public class PaymentMethodHeaderView extends FrameLayout {
 
     public void showTitlePager(final boolean isClickable) {
         if (titleView.getVisibility() == VISIBLE) {
-            arrow.startAnimation(rotateDown);
+            arrow.animateArrow(rotateDown);
         }
 
         titlePager.setVisibility(VISIBLE);
@@ -124,9 +144,9 @@ public class PaymentMethodHeaderView extends FrameLayout {
     public void setArrowVisibility(final boolean visible) {
         arrow.setAlpha(visible ? 1.0f : 0.0f);
         if (visible) {
-            rippleContent.startRippleAnimation();
+            arrow.startPulse();
         } else {
-            rippleContent.stopRippleAnimation();
+            arrow.stopPulse();
         }
     }
 

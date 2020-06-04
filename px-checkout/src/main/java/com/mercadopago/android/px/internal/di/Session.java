@@ -206,7 +206,7 @@ public final class Session extends ApplicationModule implements AmountComponent 
         return initRepository;
     }
 
-    private ExperimentsRepository getExperimentsRepository() {
+    public ExperimentsRepository getExperimentsRepository() {
         if (experimentsRepository == null) {
             experimentsRepository = new ExperimentsService(getSharedPreferences());
         }

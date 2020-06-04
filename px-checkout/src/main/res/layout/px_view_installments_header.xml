@@ -71,30 +71,23 @@
             android:background="@color/px_expressCheckoutSeparatorLine" />
     </FrameLayout>
 
-    <com.mercadopago.android.px.internal.view.PulseRippleView
-        android:id="@+id/pulse_container"
-        android:layout_width="62dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|end"
-        android:background="@drawable/px_background_opacity"
-        android:gravity="center"
-        app:rb_color="#4c009ee3"
-        app:rb_radius="12dp"
-        app:rb_rippleAmount="1"
-        app:rb_duration="1000"
-        app:rb_scale="2">
+    <com.mercadopago.android.px.internal.view.experiments.installment.PulseExperimentView
+        android:id="@+id/pulse_experiment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end">
 
-        <ImageView
-            android:id="@+id/arrow"
+
+        <com.mercadopago.android.px.internal.view.experiments.installment.ArrowControlVariantView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.mercadopago.android.px.internal.view.experiments.installment.PulseVariantView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scaleType="center"
-            android:layout_marginEnd="@dimen/px_xs_margin"
-            android:layout_centerInParent="true"
-            android:background="@null"
-            android:src="@drawable/px_circle_arrow"/>
+            android:visibility="gone"/>
 
-    </com.mercadopago.android.px.internal.view.PulseRippleView>
+    </com.mercadopago.android.px.internal.view.experiments.installment.PulseExperimentView>
 
     <ImageView
         android:id="@+id/helper"
