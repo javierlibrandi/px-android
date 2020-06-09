@@ -1,32 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:gravity="center_vertical"
+    android:weightSum="1">
 
     <com.mercadopago.android.px.internal.view.MPTextView
         android:id="@+id/left_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/px_s_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_weight=".9"
         tools:text="1x $1200" />
 
-    <com.mercadopago.android.px.internal.view.MPTextView
-        android:id="@+id/right_text"
+    <FrameLayout
+        android:id="@+id/badge_experiment_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:gravity="end"
-        android:maxLines="1"
-        android:textSize="@dimen/px_xxs_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Hasta 12 cuotas sin interés"
-        tools:textColor="@color/px_color_highlight" />
+        android:layout_weight=".1"/>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

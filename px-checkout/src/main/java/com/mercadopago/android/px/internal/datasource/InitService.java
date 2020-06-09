@@ -140,9 +140,9 @@ public class InitService implements InitRepository {
 
         final String preferenceId = paymentSettingRepository.getCheckoutPreferenceId();
         if (preferenceId != null) {
-            return checkoutService.checkout(preferenceId, paymentSettingRepository.getPrivateKey(), body);
+            return checkoutService.checkout();
         } else {
-            return checkoutService.checkout(paymentSettingRepository.getPrivateKey(), body);
+            return checkoutService.checkout();
         }
     }
 

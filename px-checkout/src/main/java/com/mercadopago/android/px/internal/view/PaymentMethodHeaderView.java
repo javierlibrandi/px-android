@@ -1,6 +1,9 @@
 package com.mercadopago.android.px.internal.view;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -10,11 +13,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.mercadopago.android.px.R;
-import com.mercadopago.android.px.internal.experiments.PulseVariant;
 import com.mercadopago.android.px.internal.experiments.VariantType;
-import com.mercadopago.android.px.internal.view.experiments.installment.PulseExperimentView;
+import com.mercadopago.android.px.internal.view.experiments.ExperimentHelper;
 import com.mercadopago.android.px.internal.viewmodel.GoingToModel;
-import com.mercadopago.android.px.model.internal.experiments.Experiment;
 
 import static com.mercadopago.android.px.internal.util.ViewUtils.hasEndedAnim;
 
@@ -22,19 +23,22 @@ public class PaymentMethodHeaderView extends FrameLayout {
 
     /* default */ final View titleView;
 
-    /* default */ PulseExperimentView arrow;
-
-    /* default */ final PulseRippleView rippleContent;
-
     /* default */ final ImageView helper;
 
     /* default */ final Animation rotateUp;
 
     /* default */ final Animation rotateDown;
 
+    private FrameLayout experimentContainer;
+
+    private PulseView pulse;
+
+    private ImageView arrow;
+
     private final TitlePager titlePager;
 
     private boolean isDisabled;
+    private boolean clicked = false;
 
     public interface Listener {
         void onDescriptorViewClicked();
@@ -55,9 +59,8 @@ public class PaymentMethodHeaderView extends FrameLayout {
         rotateUp = AnimationUtils.loadAnimation(context, R.anim.px_rotate_up);
         rotateDown = AnimationUtils.loadAnimation(context, R.anim.px_rotate_down);
         titleView = findViewById(R.id.installments_title);
+        experimentContainer = findViewById(R.id.pulse_experiment_container);
         titlePager = findViewById(R.id.title_pager);
-        arrow = findViewById(R.id.pulse_experiment);
-        rippleContent = findViewById(R.id.pulse_container);
         helper = findViewById(R.id.helper);
         titleView.setVisibility(GONE);
     }
@@ -79,30 +82,33 @@ public class PaymentMethodHeaderView extends FrameLayout {
                 listener.onDisabledDescriptorViewClick();
             } else if (hasEndedAnim(arrow)) {
                 if (titleView.getVisibility() == VISIBLE) {
-                    arrow.animateArrow(rotateDown);
+                    arrow.startAnimation(rotateDown);
                     listener.onInstallmentsSelectorCancelClicked();
                 } else {
-                    arrow.animateArrow(rotateUp);
+                    arrow.startAnimation(rotateUp);
                     listener.onDescriptorViewClicked();
+                    if (!clicked && pulse != null) {
+                        pulse.stopRippleAnimation();
+                        clicked = true;
+                    }
                 }
             }
         });
     }
 
-    public void configureExperiments(@Nullable final Experiment experiment) {
-        if (experiment != null) {
-            loadExperimentView();
-        } else {
-            loadDefaultExperimentView();
+    public void configureBadgeExperiments(@NonNull final VariantType variantType) {
+        titlePager.setExperimentVariant(variantType);
+    }
+
+    public void configurePulseExperiments(@NonNull final VariantType variantType) {
+        ExperimentHelper.INSTANCE.applyExperimentViewBy(experimentContainer, variantType);
+        if (!(variantType instanceof VariantType.Default)) {
+            pulse = experimentContainer.findViewById(R.id.pulse);
+            if (!clicked) {
+                pulse.startRippleAnimation();
+            }
         }
-    }
-
-    private void loadExperimentView() {
-        arrow.applyVariant(PulseVariant.Pulse.INSTANCE);
-    }
-
-    private void loadDefaultExperimentView() {
-        arrow.applyVariant(PulseVariant.Control.INSTANCE);
+        arrow = experimentContainer.findViewById(R.id.arrow);
     }
 
     public void showInstallmentsListTitle() {
@@ -112,7 +118,7 @@ public class PaymentMethodHeaderView extends FrameLayout {
 
     public void showTitlePager(final boolean isClickable) {
         if (titleView.getVisibility() == VISIBLE) {
-            arrow.animateArrow(rotateDown);
+            arrow.startAnimation(rotateDown);
         }
 
         titlePager.setVisibility(VISIBLE);
@@ -128,30 +134,43 @@ public class PaymentMethodHeaderView extends FrameLayout {
 
         if (model.currentIsExpandable) {
             if (model.nextIsExpandable) {
-                arrow.setAlpha(1.0f);
+                experimentContainer.setAlpha(1.0f);
             } else {
-                arrow.setAlpha(1.0f - positionOffset);
+                experimentContainer.setAlpha(1.0f - positionOffset);
             }
         } else {
             if (model.nextIsExpandable) {
-                arrow.setAlpha(positionOffset);
+                experimentContainer.setAlpha(positionOffset);
             } else {
-                arrow.setAlpha(0.0f);
+                experimentContainer.setAlpha(0.0f);
             }
         }
     }
 
     public void setArrowVisibility(final boolean visible) {
-        arrow.setAlpha(visible ? 1.0f : 0.0f);
-        if (visible) {
-            arrow.startPulse();
-        } else {
-            arrow.stopPulse();
-        }
+        experimentContainer.setAlpha(visible ? 1.0f : 0.0f);
     }
 
     public void setHelperVisibility(final boolean visible) {
         helper.setVisibility(visible ? VISIBLE : GONE);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Parcelable state) {
+        final HeaderViewState saveState = (HeaderViewState) state ;
+        super.onRestoreInstanceState(saveState.getSuperState());
+        clicked = saveState.getClicked();
+        if (clicked && pulse != null) {
+            pulse.stopRippleAnimation();
+        }
+    }
+
+    @Nullable
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final HeaderViewState state = new HeaderViewState(super.onSaveInstanceState());
+        state.setClicked(clicked);
+        return state;
     }
 
     public static class Model {
@@ -165,5 +184,39 @@ public class PaymentMethodHeaderView extends FrameLayout {
             this.currentIsExpandable = currentIsExpandable;
             this.nextIsExpandable = nextIsExpandable;
         }
+    }
+
+    static class HeaderViewState extends BaseSavedState {
+
+        private boolean clicked;
+
+        HeaderViewState(final Parcel source) {
+            super(source);
+            clicked = source.readByte() != (byte) 0;
+        }
+
+        HeaderViewState(final Parcelable superState) {
+            super(superState);
+        }
+
+        @Override
+        public void writeToParcel(final Parcel out, final int flags) {
+            super.writeToParcel(out, flags);
+            out.writeByte((byte)(clicked ? 1 : 0));
+        }
+
+        void setClicked(final boolean clicked) {
+            this.clicked = clicked;
+        }
+
+        boolean getClicked() {
+            return clicked;
+        }
+
+        public static final Parcelable.Creator<HeaderViewState> CREATOR =
+            new Parcelable.Creator<HeaderViewState>() {
+                public HeaderViewState createFromParcel(Parcel in) { return new HeaderViewState(in); }
+                public HeaderViewState[] newArray(int size) { return new HeaderViewState[size]; }
+            };
     }
 }

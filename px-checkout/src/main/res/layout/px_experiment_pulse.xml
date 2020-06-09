@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.mercadopago.android.px.internal.view.PulseRippleView android:id="@+id/pulse_container"
+<com.mercadopago.android.px.internal.view.PulseView android:id="@+id/pulse"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,11 +7,11 @@
     android:layout_height="match_parent"
     android:background="@drawable/px_background_opacity"
     android:gravity="center"
-    app:rb_color="#4c009ee3"
-    app:rb_duration="1000"
-    app:rb_radius="12dp"
-    app:rb_rippleAmount="1"
-    app:rb_scale="2"
+    app:pulse_color="#4c009ee3"
+    app:pulse_duration="1000"
+    app:pulse_radius="12dp"
+    app:pulse_rippleAmount="1"
+    app:pulse_scale="2"
     tools:layout_height="60dp">
 
     <ImageView
@@ -24,4 +24,4 @@
         android:scaleType="center"
         app:srcCompat="@drawable/px_circle_arrow" />
 
-</com.mercadopago.android.px.internal.view.PulseRippleView>
+</com.mercadopago.android.px.internal.view.PulseView>

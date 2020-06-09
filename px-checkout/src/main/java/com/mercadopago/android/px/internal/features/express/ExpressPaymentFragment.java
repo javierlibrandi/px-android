@@ -27,6 +27,7 @@ import com.mercadopago.android.px.core.DynamicDialogCreator;
 import com.mercadopago.android.px.internal.di.ConfigurationModule;
 import com.mercadopago.android.px.internal.di.MapperProvider;
 import com.mercadopago.android.px.internal.di.Session;
+import com.mercadopago.android.px.internal.experiments.BadgeVariant;
 import com.mercadopago.android.px.internal.features.disable_payment_method.DisabledPaymentMethodDetailDialog;
 import com.mercadopago.android.px.internal.features.express.add_new_card.OfflineMethodsFragment;
 import com.mercadopago.android.px.internal.features.express.add_new_card.OtherPaymentMethodFragment;
@@ -70,7 +71,6 @@ import com.mercadopago.android.px.model.PayerCost;
 import com.mercadopago.android.px.model.Site;
 import com.mercadopago.android.px.model.StatusMetadata;
 import com.mercadopago.android.px.model.internal.DisabledPaymentMethod;
-import com.mercadopago.android.px.model.internal.experiments.Experiment;
 import com.mercadopago.android.px.internal.experiments.PulseVariant;
 import java.util.Arrays;
 import java.util.List;
@@ -208,6 +208,8 @@ public class ExpressPaymentFragment extends Fragment implements ExpressPayment.V
             renderMode = (PaymentMethodFragmentAdapter.RenderMode) savedInstanceState.getSerializable(EXTRA_RENDER_MODE);
             presenter.recoverFromBundle(savedInstanceState);
         }
+        paymentMethodHeaderView.configureBadgeExperiments(presenter.getExperiment(BadgeVariant.INSTANCE));
+        paymentMethodHeaderView.configurePulseExperiments(presenter.getExperiment(PulseVariant.INSTANCE));
         presenter.attachView(this);
         if (savedInstanceState == null) {
             //TODO if we need the view attached for tracking, then it should be done in another place
@@ -244,9 +246,6 @@ public class ExpressPaymentFragment extends Fragment implements ExpressPayment.V
         slideUpAndFadeAnimation.setAnimationListener(new FadeAnimationListener(paymentMethodPager, VISIBLE));
 
         paymentMethodHeaderView = view.findViewById(R.id.installments_header);
-
-        final Experiment experiment = presenter.findExperimentBy(PulseVariant.Pulse.INSTANCE);
-        paymentMethodHeaderView.configureExperiments(experiment);
 
         paymentMethodHeaderView.setListener(new PaymentMethodHeaderView.Listener() {
             @Override

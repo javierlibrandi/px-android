@@ -35,10 +35,13 @@ public class PayerCostFormatter {
     }
 
     public Spannable apply() {
-        final Spannable totalAmount = TextFormatter.withCurrency(currency)
-            .amount(payerCost.getTotalAmount())
-            .normalDecimals()
-            .apply(R.string.px_total_amount_holder, context);
+        Spannable totalAmount = new SpannableStringBuilder();
+        if (payerCost.getInstallments() > 1) {
+            totalAmount = TextFormatter.withCurrency(currency)
+                .amount(payerCost.getTotalAmount())
+                .normalDecimals()
+                .apply(R.string.px_total_amount_holder, context);
+        }
 
         final int initialIndex = spannableStringBuilder.length();
         final String separator = " ";

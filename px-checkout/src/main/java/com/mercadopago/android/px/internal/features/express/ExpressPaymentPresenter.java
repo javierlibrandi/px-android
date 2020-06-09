@@ -37,6 +37,7 @@ import com.mercadopago.android.px.internal.view.AmountDescriptorView;
 import com.mercadopago.android.px.internal.view.ElementDescriptorView;
 import com.mercadopago.android.px.internal.view.PaymentMethodDescriptorView;
 import com.mercadopago.android.px.internal.view.SummaryView;
+import com.mercadopago.android.px.internal.view.experiments.ExperimentHelper;
 import com.mercadopago.android.px.internal.viewmodel.ConfirmButtonViewModel;
 import com.mercadopago.android.px.internal.viewmodel.PostPaymentAction;
 import com.mercadopago.android.px.internal.viewmodel.SplitSelectionState;
@@ -60,7 +61,6 @@ import com.mercadopago.android.px.model.internal.InitResponse;
 import com.mercadopago.android.px.model.internal.Modal;
 import com.mercadopago.android.px.model.internal.PaymentConfiguration;
 import com.mercadopago.android.px.model.internal.SummaryInfo;
-import com.mercadopago.android.px.model.internal.experiments.Experiment;
 import com.mercadopago.android.px.model.one_tap.CheckoutBehaviour;
 import com.mercadopago.android.px.preferences.CheckoutPreference;
 import com.mercadopago.android.px.services.Callback;
@@ -533,17 +533,12 @@ import java.util.Set;
         postDisableModelUpdate();
     }
 
-    @Nullable
-    Experiment findExperimentBy(@NonNull final VariantType variantType) {
-        final List<Experiment> experiments = experimentsRepository.getExperiments();
-
-        for (Experiment experiment : experiments) {
-            if (variantType.isExperiment(experiment.getName()) &&
-                variantType.isVariant(experiment.getVariant().getName())) {
-                return experiment;
-            }
-        }
-
-        return null;
+    VariantType getExperiment(@NonNull final VariantType.Variant variant) {
+        return ExperimentHelper
+            .INSTANCE
+            .getVariantFrom(
+                variant,
+                experimentsRepository.getExperiments()
+            );
     }
 }

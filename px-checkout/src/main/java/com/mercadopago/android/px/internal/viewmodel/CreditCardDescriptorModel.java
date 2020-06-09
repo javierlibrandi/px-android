@@ -9,6 +9,7 @@ import android.text.SpannableStringBuilder;
 import android.widget.TextView;
 import com.mercadopago.android.px.R;
 import com.mercadopago.android.px.internal.util.TextUtil;
+import com.mercadopago.android.px.internal.util.ViewUtils;
 import com.mercadopago.android.px.internal.util.textformatter.AmountLabeledFormatter;
 import com.mercadopago.android.px.internal.util.textformatter.CFTFormatter;
 import com.mercadopago.android.px.internal.util.textformatter.PayerCostFormatter;
@@ -73,6 +74,14 @@ public final class CreditCardDescriptorModel extends PaymentMethodDescriptorView
         @NonNull final TextView textView) {
         super.updateRightSpannable(spannableStringBuilder, textView);
         updateInstallmentsInfo(spannableStringBuilder, textView.getContext());
+    }
+
+    @Override
+    public void updateDrawableBackground(@NonNull final TextView textView) {
+        super.updateDrawableBackground(textView);
+        if (showBadgeExperiment && installmentsRightHeader != null) {
+            ViewUtils.setDrawableBackgroundColor(textView, installmentsRightHeader.getBackgroundColor());
+        }
     }
 
     private void updateInstallmentsInfo(@NonNull final SpannableStringBuilder spannableStringBuilder,

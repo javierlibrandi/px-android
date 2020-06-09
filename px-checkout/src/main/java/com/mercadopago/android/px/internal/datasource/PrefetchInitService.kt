@@ -37,9 +37,9 @@ internal class PrefetchInitService(private val checkout: MercadoPagoCheckout,
             .build())
 
         return checkout.preferenceId?.let {
-            checkoutService.checkout(it, checkout.privateKey, body).awaitCallback()
+            checkoutService.checkout().awaitCallback()
         } ?: run {
-            checkoutService.checkout(checkout.privateKey, body).awaitCallback()
+            checkoutService.checkout().awaitCallback()
         }
     }
 }

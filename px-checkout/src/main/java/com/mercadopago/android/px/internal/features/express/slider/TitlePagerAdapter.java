@@ -64,6 +64,9 @@ public class TitlePagerAdapter extends HubableAdapter<List<PaymentMethodDescript
         }
 
         final PaymentMethodDescriptorView.Model currentModel = data.get(currentIndex);
+        if (payerCostSelected != NO_SELECTED) {
+            currentModel.showBadgeExperiment(false);
+        }
         currentModel.setCurrentPayerCost(payerCostSelected);
         currentModel.setSplit(splitSelectionState.userWantsToSplit());
         currentView.update(currentModel);

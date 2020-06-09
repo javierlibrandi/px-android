@@ -13,6 +13,7 @@ import com.mercadopago.android.px.internal.util.TextUtil;
 import com.mercadopago.android.px.internal.util.ViewUtils;
 import com.mercadopago.android.px.model.internal.Text;
 
+
 public class MPTextView extends AppCompatTextView {
 
     public MPTextView(final Context context) {
@@ -38,6 +39,7 @@ public class MPTextView extends AppCompatTextView {
     public void setText(@NonNull final Text text) {
         setText(text.getMessage());
         ViewUtils.setTextColor(this, text.getTextColor());
+        ViewUtils.setDrawableBackgroundColor(this, text.getBackgroundColor());
         if (TextUtil.isNotEmpty(text.getWeight())) {
             FontHelper.setFont(this, PxFont.from(text.getWeight()));
         }
