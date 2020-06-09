@@ -8,11 +8,14 @@ import com.mercadopago.android.px.model.internal.experiments.Experiment
 
 object ExperimentHelper {
 
-    fun getVariantFrom(variantType: VariantType.Variant, experiments: List<Experiment>): VariantType {
-        for (experiment in experiments) {
-            val variantName = experiment.variant.name
-            if (variantType.isExperiment(experiment.name) && variantType.isVariant(variantName)) {
-                return if (variantType.isDefault(variantName)) variantType.getDefaultVariant() else variantType
+    fun getVariantFrom(variantType: VariantType.Variant, experiments: List<Experiment>?): VariantType {
+
+        if (experiments != null) {
+            for (experiment in experiments) {
+                val variantName = experiment.variant.name
+                if (variantType.isExperiment(experiment.name) && variantType.isVariant(variantName)) {
+                    return if (variantType.isDefault(variantName)) variantType.getDefaultVariant() else variantType
+                }
             }
         }
         return variantType.getDefaultVariant()
