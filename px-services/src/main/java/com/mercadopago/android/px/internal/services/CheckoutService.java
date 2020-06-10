@@ -24,14 +24,6 @@ public interface CheckoutService {
     MPCall<InitResponse> checkout(
         @Query("access_token") String privateKey,
         @Body Map<String, Object> body);
-    // control -> "http://www.mocky.io/v2/5ed7a9483200007f5a274ab8"
-    // pulse -> "http://www.mocky.io/v2/5ed7ac423200007f5a274add"
-    // badge -> "https://run.mocky.io/v3/4b76df50-e187-49bf-8f00-557fb27eeb9e"
-    // interest_free -> "https://run.mocky.io/v3/b8f0ea49-8831-4cb1-86dd-6c346f4317b9"
-    // interest_free_pulse -> "https://run.mocky.io/v3/57a9ff84-c023-4a74-a433-865c15a7d50f"
-    // interest_free_badge -> "https://run.mocky.io/v3/0b3c0f34-78ab-4c9d-b9d3-7f50d88e73ab"
-    @POST("http://www.mocky.io/v2/5ed7ac423200007f5a274add")
-    MPCall<InitResponse> checkout();
 
     @POST(ENVIRONMENT + "/px_mobile/" + CHECKOUT_VERSION + "/checkout/{preference_id}")
     MPCall<InitResponse> checkout(

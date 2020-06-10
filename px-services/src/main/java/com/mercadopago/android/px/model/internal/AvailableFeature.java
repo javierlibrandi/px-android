@@ -1,6 +1,6 @@
 package com.mercadopago.android.px.model.internal;
 
-public class AvailableFeature {
+class AvailableFeature {
 
     private String id;
     private boolean enabled;
