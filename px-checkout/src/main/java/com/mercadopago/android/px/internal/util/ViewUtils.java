@@ -210,7 +210,7 @@ public final class ViewUtils {
         }
     }
 
-    public static void setBackgroundColor(@NonNull final TextView view, @Nullable final String color) {
+    public static void setBackgroundColor(@NonNull final View view, @Nullable final String color) {
         if (TextUtil.isNotEmpty(color)) {
             try {
                 view.setBackgroundColor(Color.parseColor(color));
