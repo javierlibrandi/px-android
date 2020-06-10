@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import com.google.gson.reflect.TypeToken;
 import com.mercadopago.android.px.internal.repository.ExperimentsRepository;
 import com.mercadopago.android.px.internal.util.JsonUtil;
-import com.mercadopago.android.px.model.internal.experiments.Experiment;
+import com.mercadopago.android.px.model.internal.Experiment;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;

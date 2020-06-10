@@ -1,4 +1,4 @@
-package com.mercadopago.android.px.model.internal.experiments;
+package com.mercadopago.android.px.model.internal;
 
 import com.mercadopago.android.px.model.internal.Variant;
 import java.io.Serializable;

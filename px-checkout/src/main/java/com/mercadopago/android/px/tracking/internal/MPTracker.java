@@ -7,7 +7,7 @@ import com.mercadopago.android.px.internal.di.Session;
 import com.mercadopago.android.px.model.CheckoutType;
 import com.mercadopago.android.px.model.Event;
 import com.mercadopago.android.px.model.ScreenViewEvent;
-import com.mercadopago.android.px.model.internal.experiments.Experiment;
+import com.mercadopago.android.px.model.internal.Experiment;
 import com.mercadopago.android.px.tracking.PXEventListener;
 import com.mercadopago.android.px.tracking.PXTrackingListener;
 import com.mercadopago.android.px.tracking.internal.events.FrictionEventTracker;

@@ -7,7 +7,6 @@ import com.mercadopago.android.px.model.Currency;
 import com.mercadopago.android.px.model.PayerCompliance;
 import com.mercadopago.android.px.model.PaymentMethodSearch;
 import com.mercadopago.android.px.model.Site;
-import com.mercadopago.android.px.model.internal.experiments.Experiment;
 import com.mercadopago.android.px.preferences.CheckoutPreference;
 import java.util.List;
 import java.util.Map;
