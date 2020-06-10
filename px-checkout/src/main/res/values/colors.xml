@@ -214,8 +214,8 @@
     <color name="px_disabled_background">#ededed</color>
     <color name="px_disabled_font">#11000000</color>
 
-    <!-- Colors used by Money in -->
-    <color name="rippelColor">#0099CC</color>
+    <!-- Colors used by pulse view -->
+    <color name="pulseColor">#0099CC</color>
 
     <color name="px_circle_arrow_background">#EEEEEE</color>
 

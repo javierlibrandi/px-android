@@ -1,8 +1,6 @@
 package com.mercadopago.android.px.internal.view;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -38,7 +36,6 @@ public class PaymentMethodHeaderView extends FrameLayout {
     private final TitlePager titlePager;
 
     private boolean isDisabled;
-    private boolean clicked = false;
 
     public interface Listener {
         void onDescriptorViewClicked();
@@ -87,9 +84,8 @@ public class PaymentMethodHeaderView extends FrameLayout {
                 } else {
                     arrow.startAnimation(rotateUp);
                     listener.onDescriptorViewClicked();
-                    if (!clicked && pulse != null) {
+                    if (pulse != null) {
                         pulse.stopRippleAnimation();
-                        clicked = true;
                     }
                 }
             }
@@ -104,9 +100,7 @@ public class PaymentMethodHeaderView extends FrameLayout {
         ExperimentHelper.INSTANCE.applyExperimentViewBy(experimentContainer, variantType);
         if (!(variantType instanceof VariantType.Default)) {
             pulse = experimentContainer.findViewById(R.id.pulse);
-            if (!clicked) {
-                pulse.startRippleAnimation();
-            }
+            pulse.startRippleAnimation();
         }
         arrow = experimentContainer.findViewById(R.id.arrow);
     }
@@ -155,24 +149,6 @@ public class PaymentMethodHeaderView extends FrameLayout {
         helper.setVisibility(visible ? VISIBLE : GONE);
     }
 
-    @Override
-    protected void onRestoreInstanceState(final Parcelable state) {
-        final HeaderViewState saveState = (HeaderViewState) state ;
-        super.onRestoreInstanceState(saveState.getSuperState());
-        clicked = saveState.getClicked();
-        if (clicked && pulse != null) {
-            pulse.stopRippleAnimation();
-        }
-    }
-
-    @Nullable
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        final HeaderViewState state = new HeaderViewState(super.onSaveInstanceState());
-        state.setClicked(clicked);
-        return state;
-    }
-
     public static class Model {
         final GoingToModel goingTo;
         final boolean currentIsExpandable;
@@ -184,39 +160,5 @@ public class PaymentMethodHeaderView extends FrameLayout {
             this.currentIsExpandable = currentIsExpandable;
             this.nextIsExpandable = nextIsExpandable;
         }
-    }
-
-    static class HeaderViewState extends BaseSavedState {
-
-        private boolean clicked;
-
-        HeaderViewState(final Parcel source) {
-            super(source);
-            clicked = source.readByte() != (byte) 0;
-        }
-
-        HeaderViewState(final Parcelable superState) {
-            super(superState);
-        }
-
-        @Override
-        public void writeToParcel(final Parcel out, final int flags) {
-            super.writeToParcel(out, flags);
-            out.writeByte((byte)(clicked ? 1 : 0));
-        }
-
-        void setClicked(final boolean clicked) {
-            this.clicked = clicked;
-        }
-
-        boolean getClicked() {
-            return clicked;
-        }
-
-        public static final Parcelable.Creator<HeaderViewState> CREATOR =
-            new Parcelable.Creator<HeaderViewState>() {
-                public HeaderViewState createFromParcel(Parcel in) { return new HeaderViewState(in); }
-                public HeaderViewState[] newArray(int size) { return new HeaderViewState[size]; }
-            };
     }
 }

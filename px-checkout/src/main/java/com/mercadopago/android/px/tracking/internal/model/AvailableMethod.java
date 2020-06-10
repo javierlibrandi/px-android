@@ -60,6 +60,12 @@ public class AvailableMethod extends TrackingMapModel implements Parcelable {
         extraInfo = null;
     }
 
+    public AvailableMethod(final Builder builder) {
+        paymentMethodId = builder.paymentMethodId;
+        paymentMethodType = builder.paymentMethodType;
+        extraInfo = builder.extraInfo;
+    }
+
     protected AvailableMethod(final Parcel in) {
         paymentMethodId = in.readString();
         paymentMethodType = in.readString();
@@ -77,5 +83,42 @@ public class AvailableMethod extends TrackingMapModel implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public static class Builder {
+        private static final String HAS_INTEREST_FREE = "has_interest_free";
+        private static final String HAS_REIMBURSEMENT = "has_reimbursement";
+        String paymentMethodId;
+        String paymentMethodType;
+        Map<String, Object> extraInfo = new HashMap<>();
+
+        public Builder setPaymentMethodId(@NonNull final String paymentMethodId) {
+            this.paymentMethodId = paymentMethodId;
+            return this;
+        }
+
+        public Builder setPaymentMethodType(@NonNull final String paymentMethodType) {
+            this.paymentMethodType = paymentMethodType;
+            return this;
+        }
+
+        public Builder setExtraInfo(@NonNull final Map<String, Object> extraInfo) {
+            this.extraInfo.putAll(extraInfo);
+            return this;
+        }
+
+        public Builder setHasInterestFree(final boolean hasInterestFree) {
+            extraInfo.put(HAS_INTEREST_FREE, hasInterestFree);
+            return this;
+        }
+
+        public Builder setHasReimbursement(final boolean hasReimbursement) {
+            extraInfo.put(HAS_REIMBURSEMENT, hasReimbursement);
+            return this;
+        }
+
+        public AvailableMethod build() {
+            return new AvailableMethod(this);
+        }
     }
 }

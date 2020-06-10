@@ -3,6 +3,7 @@ package com.mercadopago.android.px.tracking.internal.mapper;
 import android.support.annotation.NonNull;
 import com.mercadopago.android.px.internal.viewmodel.mappers.NonNullMapper;
 import com.mercadopago.android.px.model.AccountMoneyMetadata;
+import com.mercadopago.android.px.model.BenefitsMetadata;
 import com.mercadopago.android.px.model.CardMetadata;
 import com.mercadopago.android.px.model.ExpressMetadata;
 import com.mercadopago.android.px.tracking.internal.model.AccountMoneyExtraInfo;
@@ -23,20 +24,42 @@ public class FromExpressMetadataToAvailableMethods extends NonNullMapper<Express
 
     @Override
     public AvailableMethod map(@NonNull final ExpressMetadata expressMetadata) {
+        boolean hasInterestFree = false;
+        boolean hasReimbursement = false;
+        final BenefitsMetadata benefits = expressMetadata.getBenefits();
+
+        if (benefits != null) {
+            hasInterestFree = benefits.getInterestFree() != null;
+            hasReimbursement = benefits.getReimbursement() != null;
+        }
+
+        final AvailableMethod.Builder builder = new AvailableMethod.Builder()
+            .setPaymentMethodId(expressMetadata.getPaymentMethodId())
+            .setPaymentMethodType(expressMetadata.getPaymentTypeId())
+            .setHasInterestFree(hasInterestFree)
+            .setHasReimbursement(hasReimbursement);
+
         if (expressMetadata.isCard()) {
             final CardMetadata card = expressMetadata.getCard();
-            return new AvailableMethod(expressMetadata.getPaymentMethodId(), expressMetadata.getPaymentTypeId(),
+
+            builder.setExtraInfo(
                 CardExtraExpress
-                    .expressSavedCard(card, cardsWithEsc.contains(card.getId()), cardsWithSplit.contains(card.getId()))
-                    .toMap());
+                    .expressSavedCard(card, cardsWithEsc.contains(card.getId()), cardsWithSplit.contains(card.getId()),
+                        hasInterestFree, hasReimbursement)
+                    .toMap()
+            );
+
         } else if (expressMetadata.getAccountMoney() != null) {
             final AccountMoneyMetadata accountMoney = expressMetadata.getAccountMoney();
-            return new AvailableMethod(expressMetadata.getPaymentMethodId(), expressMetadata.getPaymentTypeId(),
-                new AccountMoneyExtraInfo(accountMoney.getBalance(), accountMoney.isInvested()).toMap());
+
+            builder.setExtraInfo(
+                new AccountMoneyExtraInfo(accountMoney.getBalance(), accountMoney.isInvested()).toMap()
+            );
+
         } else if (expressMetadata.isNewCard()) {
             return null;
-        } else {
-            return new AvailableMethod(expressMetadata.getPaymentMethodId(), expressMetadata.getPaymentTypeId());
         }
+
+        return builder.build();
     }
 }
