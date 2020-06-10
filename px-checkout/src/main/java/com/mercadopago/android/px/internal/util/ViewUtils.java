@@ -234,10 +234,7 @@ public final class ViewUtils {
         final Drawable background = view.getBackground();
         if (background != null) {
             try {
-                final int whiteColor = ContextCompat.getColor(view.getContext(), R.color.px_white);
-                final int currentColor = Color.parseColor(color);
-                background
-                    .setColorFilter(currentColor != whiteColor ? currentColor : transparentColor, PorterDuff.Mode.SRC);
+                background.setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC);
             } catch (final Exception e) {
                 background.setColorFilter(transparentColor, PorterDuff.Mode.SRC);
             }

@@ -47,7 +47,7 @@ public class PaymentMethodDescriptorView extends LinearLayout {
         model.updateLeftSpannable(leftSpannableBuilder, leftText);
         leftText.setText(leftSpannableBuilder);
         final SpannableStringBuilder rightSpannableBuilder = new SpannableStringBuilder();
-        model.updateRightSpannable(rightSpannableBuilder, rightText);
+        model.updateRightSpannable(rightSpannableBuilder, leftText);
         rightText.setText(rightSpannableBuilder);
         setContentDescription(TextUtil.EMPTY);
         model.updateDrawableBackground(rightText);
