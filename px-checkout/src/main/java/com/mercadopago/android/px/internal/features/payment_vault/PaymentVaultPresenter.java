@@ -230,10 +230,10 @@ public class PaymentVaultPresenter extends BasePresenter<PaymentVaultView> imple
         final PaymentMethod paymentMethod = initResponse.getPaymentMethodById(searchItem.getPaymentMethodId());
         final Card selectedCard = new CustomSearchItemToCardMapper().map(searchItem);
         if (paymentMethod != null) {
-            selectedCard.setPaymentMethod(paymentMethod);
-            if (selectedCard.getSecurityCode() == null && paymentMethod.getSettings() != null &&
+            selectedCard.paymentMethod = paymentMethod;
+            if (selectedCard.securityCode == null && paymentMethod.getSettings() != null &&
                 paymentMethod.getSettings().get(0) != null) {
-                selectedCard.setSecurityCode(paymentMethod.getSettings().get(0).getSecurityCode());
+                selectedCard.securityCode = paymentMethod.getSettings().get(0).getSecurityCode();
             }
         }
         return selectedCard;
@@ -242,7 +242,7 @@ public class PaymentVaultPresenter extends BasePresenter<PaymentVaultView> imple
     private Card getCardById(final Iterable<Card> savedCards, final String cardId) {
         Card foundCard = null;
         for (final Card card : savedCards) {
-            if (card.getId().equals(cardId)) {
+            if (card.id.equals(cardId)) {
                 foundCard = card;
                 break;
             }

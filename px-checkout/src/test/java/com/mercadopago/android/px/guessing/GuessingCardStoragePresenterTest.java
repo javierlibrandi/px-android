@@ -449,7 +449,7 @@ public class GuessingCardStoragePresenterTest {
             .thenReturn(new StubSuccessMpCall<>(token));
 
         final Card stubCard = new Card();
-        stubCard.setId(DUMMY_CARD_ID);
+        stubCard.id = DUMMY_CARD_ID;
         when(cardAssociationService
             .associateCardToUser(DUMMY_ACCESS_TOKEN, DUMMY_TOKEN_ID, mockedGuessedPaymentMethods.get(0).getId(),
                 dummyIssuer.getId()))

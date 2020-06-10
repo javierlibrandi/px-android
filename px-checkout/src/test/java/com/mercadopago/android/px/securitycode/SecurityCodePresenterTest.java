@@ -223,7 +223,7 @@ public class SecurityCodePresenterTest {
         final SecurityCode securityCode = mock(SecurityCode.class);
         when(securityCode.getLength()).thenReturn(DUMMY_CVV.length());
         when(escManagerBehaviour.isESCEnabled()).thenReturn(true);
-        when(card.getSecurityCode()).thenReturn(securityCode);
+        when(card.securityCode).thenReturn(securityCode);
         when(cardTokenRepository.createToken(any(SavedESCCardToken.class)))
             .thenReturn(new StubSuccessMpCall<>(stubToken));
         final Token token = mock(Token.class);
@@ -233,7 +233,7 @@ public class SecurityCodePresenterTest {
         presenter.saveSecurityCode(DUMMY_CVV);
         presenter.validateSecurityCodeInput();
 
-        mockClearCap(card.getId());
+        mockClearCap(card.id);
 
         verify(view).showLoadingView();
         verify(view).finishWithResult();
@@ -246,7 +246,7 @@ public class SecurityCodePresenterTest {
         final SecurityCode securityCode = mock(SecurityCode.class);
         when(securityCode.getLength()).thenReturn(DUMMY_CVV.length());
         when(escManagerBehaviour.isESCEnabled()).thenReturn(true);
-        when(card.getSecurityCode()).thenReturn(securityCode);
+        when(card.securityCode).thenReturn(securityCode);
         when(cardTokenRepository.createToken(any(SavedESCCardToken.class)))
             .thenReturn(new StubFailMpCall<>(apiException));
         final Token token = mock(Token.class);
@@ -266,8 +266,8 @@ public class SecurityCodePresenterTest {
     public void whenESCRecoverFromPaymentThenCreateESCToken() {
         final SecurityCode securityCode = mock(SecurityCode.class);
         when(securityCode.getLength()).thenReturn(DUMMY_CVV.length());
-        when(card.getId()).thenReturn(DUMMY_CARD_ID);
-        when(card.getSecurityCode()).thenReturn(securityCode);
+        when(card.id).thenReturn(DUMMY_CARD_ID);
+        when(card.securityCode).thenReturn(securityCode);
         when(paymentRecovery.isStatusDetailInvalidESC()).thenReturn(true);
         when(cardTokenRepository.createToken(any(SavedESCCardToken.class)))
             .thenReturn(new StubSuccessMpCall<>(stubToken));
@@ -278,7 +278,7 @@ public class SecurityCodePresenterTest {
         presenter.saveSecurityCode(DUMMY_CVV);
         presenter.validateSecurityCodeInput();
 
-        mockClearCap(card.getId());
+        mockClearCap(card.id);
 
         verify(view).showLoadingView();
         verify(view).finishWithResult();
@@ -289,8 +289,8 @@ public class SecurityCodePresenterTest {
     public void whenSavedCardWithoutESCEnabledThenCreateToken() {
         final SecurityCode securityCode = mock(SecurityCode.class);
         when(securityCode.getLength()).thenReturn(DUMMY_CVV.length());
-        when(card.getId()).thenReturn(DUMMY_CARD_ID);
-        when(card.getSecurityCode()).thenReturn(securityCode);
+        when(card.id).thenReturn(DUMMY_CARD_ID);
+        when(card.securityCode).thenReturn(securityCode);
         when(escManagerBehaviour.isESCEnabled()).thenReturn(false);
         when(cardTokenRepository.createToken(any(SavedCardToken.class))).thenReturn(new StubSuccessMpCall<>(stubToken));
         final Token token = mock(Token.class);
@@ -310,8 +310,8 @@ public class SecurityCodePresenterTest {
         final ApiException apiException = mock(ApiException.class);
         final SecurityCode securityCode = mock(SecurityCode.class);
         when(securityCode.getLength()).thenReturn(DUMMY_CVV.length());
-        when(card.getId()).thenReturn(DUMMY_CARD_ID);
-        when(card.getSecurityCode()).thenReturn(securityCode);
+        when(card.id).thenReturn(DUMMY_CARD_ID);
+        when(card.securityCode).thenReturn(securityCode);
         when(escManagerBehaviour.isESCEnabled()).thenReturn(false);
         when(cardTokenRepository.createToken(any(SavedCardToken.class))).thenReturn(new StubFailMpCall<>(apiException));
         final Token token = mock(Token.class);

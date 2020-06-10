@@ -14,9 +14,9 @@ internal class RemediesBodyMapper(private val userSelectionRepository: UserSelec
 
     override fun map(data: PaymentData): RemediesBody {
         val (secCodeLocation, secCodeLength, escStatus) = userSelectionRepository.card?.let {
-            Triple(it.securityCodeLocation, it.securityCodeLength, it.escStatus)
+            Triple(it.getSecurityCodeLocation(), it.getSecurityCodeLength(), it.escStatus)
         } ?: data.token?.let {
-            Triple(DEFAULT_CVV_LOCATION, it.securityCodeLength, null)
+            Triple(DEFAULT_CVV_LOCATION, it.getSecurityCodeLength(), null)
         } ?: Triple(null, null, null)
         with(data) {
             val payerPaymentMethodRejected = RemedyPaymentMethod(customOptionId, payerCost?.installments,

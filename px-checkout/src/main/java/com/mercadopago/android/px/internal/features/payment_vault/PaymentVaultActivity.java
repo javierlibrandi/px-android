@@ -315,7 +315,7 @@ public class PaymentVaultActivity extends PXActivity<PaymentVaultPresenter> impl
         if (mSelectedIssuer != null) {
             returnIntent.putExtra(EXTRA_ISSUER, (Serializable) mSelectedIssuer);
         }
-        returnIntent.putExtra(EXTRA_CARD, mSelectedCard);
+        returnIntent.putExtra(EXTRA_CARD, (Parcelable) mSelectedCard);
         finishWithResult(returnIntent);
     }
 

@@ -221,7 +221,7 @@ public class GuessingCardStoragePresenter extends GuessingCardPresenter {
 
     /* default */ void saveCardEsc(final Card card) {
         final SavedESCCardToken savedESCCardToken =
-            SavedESCCardToken.createWithSecurityCode(card.getId(), getCardToken().getSecurityCode());
+            SavedESCCardToken.createWithSecurityCode(card.id, getCardToken().getSecurityCode());
         gatewayService.createEscToken(mercadoPagoCardStorage.getAccessToken(), savedESCCardToken)
             .enqueue(new TaggedCallback<Token>(CREATE_TOKEN) {
                 @Override

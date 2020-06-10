@@ -59,9 +59,9 @@ public class CardVaultPresenterTest {
 
     private void configureMockedCard() {
         final Card card = mock(Card.class);
-        when(card.getId()).thenReturn("1");
-        when(card.getFirstSixDigits()).thenReturn("123456");
-        when(card.getLastFourDigits()).thenReturn("1234");
+        when(card.id).thenReturn("1");
+        when(card.firstSixDigits).thenReturn("123456");
+        when(card.lastFourDigits).thenReturn("1234");
         when(userSelectionRepository.getCard()).thenReturn(card);
         presenter.setCard(card);
     }
@@ -112,7 +112,7 @@ public class CardVaultPresenterTest {
     public void whenGuessingCardHasInstallmentSelectedAndWithoutTokenThenStartSecurityCodeFlow() {
         configureMockedCard();
         final Card card = userSelectionRepository.getCard();
-        when(escManagerBehaviour.getESC(card.getId(), card.getFirstSixDigits(), card.getLastFourDigits()))
+        when(escManagerBehaviour.getESC(card.id, card.firstSixDigits, card.lastFourDigits))
             .thenReturn(TextUtil.EMPTY);
 
         presenter.resolveInstallmentsRequest();
@@ -168,7 +168,7 @@ public class CardVaultPresenterTest {
     public void verifyResolvesOnSelectedPayerCostPayerCostListWithoutESC() {
         configureMockedCard();
         final Card card = userSelectionRepository.getCard();
-        when(escManagerBehaviour.getESC(card.getId(), card.getFirstSixDigits(), card.getLastFourDigits()))
+        when(escManagerBehaviour.getESC(card.id, card.firstSixDigits, card.lastFourDigits))
             .thenReturn(TextUtil.EMPTY);
         when(userSelectionRepository.getPayerCost()).thenReturn(mock(PayerCost.class));
 
@@ -186,7 +186,7 @@ public class CardVaultPresenterTest {
 
         when(cardTokenRepository.createToken(savedESCCardToken))
             .thenReturn(new StubSuccessMpCall<>(mock(Token.class)));
-        when(escManagerBehaviour.getESC(card.getId(), card.getFirstSixDigits(), card.getLastFourDigits()))
+        when(escManagerBehaviour.getESC(card.id, card.firstSixDigits, card.lastFourDigits))
             .thenReturn("1");
         when(userSelectionRepository.getPayerCost()).thenReturn(mock(PayerCost.class));
 
@@ -201,7 +201,7 @@ public class CardVaultPresenterTest {
     public void whenOnlyOnePayerCostThenSelectsAndAsksForSecCode() {
         configureMockedCard();
         final Card card = userSelectionRepository.getCard();
-        when(escManagerBehaviour.getESC(card.getId(), card.getFirstSixDigits(), card.getLastFourDigits()))
+        when(escManagerBehaviour.getESC(card.id, card.firstSixDigits, card.lastFourDigits))
             .thenReturn(TextUtil.EMPTY);
         final List<PayerCost> payerCosts = Collections.singletonList(mock(PayerCost.class));
         when(amountConfiguration.getPayerCosts()).thenReturn(payerCosts);

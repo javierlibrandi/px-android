@@ -40,7 +40,7 @@ public class InstallmentsViewTrack extends ViewTracker {
         }
 
         if (card != null) {
-            data.put("card_id", card.getId());
+            data.put("card_id", card.id);
         }
         if (issuer != null) {
             data.put("issuer_id", issuer.getId());

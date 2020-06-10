@@ -19,13 +19,13 @@ public abstract class PXActivity<P extends BasePresenter> extends AppCompatActiv
     protected final void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FontHelper.init(getApplicationContext());
-        if (!Session.getInstance().isInitialized()) {
+        /*if (!Session.getInstance().isInitialized()) {
             onHalted();
             setResult(MercadoPagoCheckout.SESSION_EXPIRED_RESULT_CODE);
             finish();
-        } else {
+        } else {*/
             onCreated(savedInstanceState);
-        }
+        //}
     }
 
     protected void onHalted() {

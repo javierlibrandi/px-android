@@ -40,11 +40,11 @@ public class DefaultPaymentMethodDriver {
         final Card card = paymentMethods.getCardById(preference.getDefaultCardId());
         final PaymentMethod paymentMethod =
             paymentMethods.getPaymentMethodById(preference.getDefaultPaymentMethodId());
-        if (paymentMethod != null && card.getSecurityCode() == null && paymentMethod.getSettings() != null &&
+        if (paymentMethod != null && card.securityCode == null && paymentMethod.getSettings() != null &&
             paymentMethod.getSettings().get(0) != null) {
-            card.setSecurityCode((paymentMethod.getSettings().get(0)).getSecurityCode());
+            card.securityCode = (paymentMethod.getSettings().get(0)).getSecurityCode();
         }
-        card.setPaymentMethod(paymentMethod);
+        card.paymentMethod = paymentMethod;
         return card;
     }
 

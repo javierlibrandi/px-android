@@ -29,8 +29,8 @@ public class CardExtraInfo extends TrackingMapModel {
     @NonNull
     public static CardExtraInfo savedCard(@NonNull final Card card, @NonNull final PayerCost payerCost,
         final boolean hasEsc) {
-        return new CardExtraInfo(card.getId(), hasEsc,
-            card.getIssuer().getId(),
+        return new CardExtraInfo(card.id, hasEsc,
+            card.issuer.getId(),
             new PayerCostInfo(payerCost));
     }
 

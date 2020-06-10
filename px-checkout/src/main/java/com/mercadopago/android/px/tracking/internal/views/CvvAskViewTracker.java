@@ -27,10 +27,10 @@ public class CvvAskViewTracker extends ViewTracker {
     @Override
     public Map<String, Object> getData() {
         //TODO verify recovery escenario.
-        if (card != null && card.getPaymentMethod() != null) {
+        if (card != null && card.paymentMethod != null) {
             final Map<String, Object> data = new HashMap<>();
-            data.put("payment_method_id", card.getPaymentMethod().getId());
-            data.put("card_id", card.getId());
+            data.put("payment_method_id", card.paymentMethod.getId());
+            data.put("card_id", card.id);
             data.put("reason", reason.name().toLowerCase());
             return data;
         }

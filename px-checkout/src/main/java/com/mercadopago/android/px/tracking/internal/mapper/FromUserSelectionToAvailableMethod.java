@@ -26,7 +26,7 @@ public class FromUserSelectionToAvailableMethod extends Mapper<UserSelectionRepo
         if (PaymentTypes.isCardPaymentType(paymentMethod.getPaymentTypeId()) && card != null) {
             return new AvailableMethod(paymentMethod.getId(), paymentMethod.getPaymentTypeId(),
                 CardExtraInfo.savedCard(card, val.getPayerCost(),
-                    escCardIds.contains(card.getId())).toMap());
+                    escCardIds.contains(card.id)).toMap());
         } else if (PaymentTypes.isCardPaymentType(paymentMethod.getPaymentTypeId())) {
             return new AvailableMethod(paymentMethod.getId(), paymentMethod.getPaymentTypeId(),
                 CardExtraInfo.nonSavedCardInfo(val.getIssuer(), val.getPayerCost()).toMap());

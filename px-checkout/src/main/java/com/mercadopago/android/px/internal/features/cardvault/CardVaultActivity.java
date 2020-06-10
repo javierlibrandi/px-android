@@ -3,6 +3,7 @@ package com.mercadopago.android.px.internal.features.cardvault;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -236,7 +237,7 @@ public class CardVaultActivity extends PXActivity<CardVaultPresenter> implements
         final Intent returnIntent = new Intent();
         // TODO: can we kill this and use user selection repository?
         returnIntent.putExtra(EXTRA_TOKEN, presenter.getToken());
-        returnIntent.putExtra(EXTRA_CARD, presenter.getCard());
+        returnIntent.putExtra(EXTRA_CARD, (Parcelable) presenter.getCard());
         setResult(RESULT_OK, returnIntent);
         finish();
     }

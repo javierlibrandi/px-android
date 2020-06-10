@@ -80,7 +80,7 @@ import java.util.Set;
         final PayerCost payerCost = userSelectionRepository.getPayerCost();
         final boolean isCard = PaymentTypes.isCardPaymentType(paymentTypeId);
         //Card is null on guessing card flow
-        final String customOptionId = isCard ? (card != null ? card.getId() : "") : paymentMethodId;
+        final String customOptionId = isCard ? (card != null ? card.id : "") : paymentMethodId;
         callback.call(
             new PaymentConfiguration(
                 paymentMethodId,
