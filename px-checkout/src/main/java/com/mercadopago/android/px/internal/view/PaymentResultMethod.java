@@ -52,8 +52,7 @@ public class PaymentResultMethod extends ConstraintLayout {
     }
 
     public void setModel(@NonNull final Model model) {
-        icon.setImageDrawable(ContextCompat.getDrawable(getContext(),
-            ResourceUtil.getIconResource(getContext(), model.paymentMethodId)));
+        icon.setImageResource(ResourceUtil.getIconResource(getContext(), model.paymentMethodId));
 
         ViewUtils.loadOrGone(getDescription(model), description);
         ViewUtils.loadOrHide(View.GONE, model.paymentMethodDescription, paymentMethodStatement);

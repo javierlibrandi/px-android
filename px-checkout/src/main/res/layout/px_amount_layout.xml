@@ -94,8 +94,8 @@
             android:layout_centerVertical="true"
             android:layout_gravity="right|end|center_vertical"
             android:layout_marginStart="@dimen/px_xxs_margin"
-            android:background="@drawable/px_arrow_right"
-            app:backgroundTint="@color/px_darkest_gray"
+            app:srcCompat="@drawable/px_arrow_right"
+            android:tint="@color/px_darkest_gray"
             android:orientation="vertical"
             android:visibility="visible"/>
 

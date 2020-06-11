@@ -79,7 +79,7 @@ public final class CreditCardDescriptorModel extends PaymentMethodDescriptorView
     @Override
     public void updateDrawableBackground(@NonNull final TextView textView) {
         super.updateDrawableBackground(textView);
-        if (showBadgeExperiment && installmentsRightHeader != null) {
+        if (payerCostSelected == PayerCost.NO_SELECTED && installmentsRightHeader != null) {
             ViewUtils.setDrawableBackgroundColor(textView, installmentsRightHeader.getBackgroundColor());
         }
     }

@@ -217,4 +217,6 @@
     <!-- Colors used by pulse view -->
     <color name="pulseColor">#0099CC</color>
 
+    <color name="px_circle_arrow_background">#EEEEEE</color>
+
 </resources>

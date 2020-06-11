@@ -65,7 +65,6 @@ public class PaymentMethodDescriptorView extends LinearLayout {
     public abstract static class Model {
         protected int payerCostSelected = PayerCost.NO_SELECTED;
         protected boolean userWantToSplit = true;
-        protected boolean showBadgeExperiment = true;
 
         public abstract void updateLeftSpannable(@NonNull final SpannableStringBuilder spannableStringBuilder,
             @NonNull final TextView textView);
@@ -93,10 +92,6 @@ public class PaymentMethodDescriptorView extends LinearLayout {
 
         public boolean hasPayerCostList() {
             return false;
-        }
-
-        public void showBadgeExperiment(final boolean showBadge) {
-            showBadgeExperiment = showBadge;
         }
 
         protected String getAccessibilityContentDescription(@NonNull final Context context) {
