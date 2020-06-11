@@ -3,6 +3,7 @@ package com.mercadopago.android.px.internal.features.express;
 import android.support.annotation.NonNull;
 import com.mercadopago.android.px.core.DynamicDialogCreator;
 import com.mercadopago.android.px.internal.base.MvpView;
+import com.mercadopago.android.px.internal.experiments.Variant;
 import com.mercadopago.android.px.internal.features.express.installments.InstallmentRowHolder;
 import com.mercadopago.android.px.internal.features.express.slider.HubAdapter;
 import com.mercadopago.android.px.internal.features.generic_modal.ActionType;
@@ -73,6 +74,8 @@ public interface ExpressPayment {
         void showLoading();
 
         void hideLoading();
+
+        void configurePaymentMethodHeader(@NonNull final List<Variant> variant);
     }
 
     interface Actions {

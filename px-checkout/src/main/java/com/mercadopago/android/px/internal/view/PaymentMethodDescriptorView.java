@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.mercadopago.android.px.R;
-import com.mercadopago.android.px.internal.experiments.VariantType;
+import com.mercadopago.android.px.internal.experiments.Variant;
 import com.mercadopago.android.px.internal.util.TextUtil;
 import com.mercadopago.android.px.internal.util.ViewUtils;
 import com.mercadopago.android.px.internal.view.experiments.ExperimentHelper;
@@ -53,8 +53,8 @@ public class PaymentMethodDescriptorView extends LinearLayout {
         model.updateDrawableBackground(rightText);
     }
 
-    public void configureExperiment(VariantType variantType) {
-        ExperimentHelper.INSTANCE.applyExperimentViewBy(experimentContainer, variantType);
+    public void configureExperiment(Variant variant) {
+        ExperimentHelper.INSTANCE.applyExperimentViewBy(experimentContainer, variant);
         rightText = experimentContainer.findViewById(R.id.right_text);
     }
 

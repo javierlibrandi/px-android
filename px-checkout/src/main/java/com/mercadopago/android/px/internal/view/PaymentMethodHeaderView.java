@@ -11,9 +11,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import com.mercadopago.android.px.R;
-import com.mercadopago.android.px.internal.experiments.VariantType;
+import com.mercadopago.android.px.internal.experiments.BadgeVariant;
+import com.mercadopago.android.px.internal.experiments.PulseVariant;
+import com.mercadopago.android.px.internal.experiments.Variant;
+import com.mercadopago.android.px.internal.experiments.VariantHandler;
 import com.mercadopago.android.px.internal.view.experiments.ExperimentHelper;
 import com.mercadopago.android.px.internal.viewmodel.GoingToModel;
+import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 import static com.mercadopago.android.px.internal.util.ViewUtils.hasEndedAnim;
 
@@ -92,14 +97,31 @@ public class PaymentMethodHeaderView extends FrameLayout {
         });
     }
 
-    public void configureBadgeExperiments(@NonNull final VariantType variantType) {
-        titlePager.setExperimentVariant(variantType);
+    public void configureExperiment(@NonNull final List<Variant> variants) {
+        for(Variant variant: variants) {
+            variant.process(new VariantHandler() {
+                @Override
+                public void visit(@NotNull final PulseVariant variant) {
+                    configurePulseExperiment(variant);
+                }
+
+                @Override
+                public void visit(@NotNull final BadgeVariant variant) {
+                    configureBadgeExperiment(variant);
+                }
+            });
+        }
     }
 
-    public void configurePulseExperiments(@NonNull final VariantType variantType) {
-        ExperimentHelper.INSTANCE.applyExperimentViewBy(experimentContainer, variantType);
-        if (!(variantType instanceof VariantType.Default)) {
-            pulse = experimentContainer.findViewById(R.id.pulse);
+    private void configureBadgeExperiment(@NonNull final Variant variant) {
+        titlePager.setBadgeExperimentVariant(variant);
+    }
+
+    private void configurePulseExperiment(@NonNull final Variant variant) {
+        ExperimentHelper.INSTANCE.applyExperimentViewBy(experimentContainer, variant);
+
+        pulse = experimentContainer.findViewById(R.id.pulse);
+        if (pulse != null) {
             pulse.startRippleAnimation();
         }
         arrow = experimentContainer.findViewById(R.id.arrow);

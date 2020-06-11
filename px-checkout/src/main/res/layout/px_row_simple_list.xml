@@ -1,4 +1,4 @@
-<FrameLayout
+<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:orientation="horizontal"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:scaleType="center"
-            android:src="@drawable/px_arrow_right"
+            app:srcCompat="@drawable/px_arrow_right"
             android:tint="@color/px_darkest_gray"
             android:adjustViewBounds="true"/>
     </LinearLayout>

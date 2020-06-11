@@ -1,6 +1,8 @@
 package com.mercadopago;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.mercadopago.android.px.addons.FakeEscManagerBehaviourImpl;
@@ -12,6 +14,13 @@ import com.squareup.leakcanary.LeakCanary;
 import okhttp3.OkHttpClient;
 
 public class SampleApplication extends Application {
+
+    @Override
+    protected void attachBaseContext(final Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

@@ -10,7 +10,9 @@ import com.mercadopago.android.px.core.DynamicDialogCreator;
 import com.mercadopago.android.px.internal.base.BasePresenter;
 import com.mercadopago.android.px.internal.core.FlowIdProvider;
 import com.mercadopago.android.px.internal.core.SessionIdProvider;
-import com.mercadopago.android.px.internal.experiments.VariantType;
+import com.mercadopago.android.px.internal.experiments.BadgeVariant;
+import com.mercadopago.android.px.internal.experiments.PulseVariant;
+import com.mercadopago.android.px.internal.experiments.Variant;
 import com.mercadopago.android.px.internal.features.express.installments.InstallmentRowHolder;
 import com.mercadopago.android.px.internal.features.express.slider.HubAdapter;
 import com.mercadopago.android.px.internal.features.express.slider.SplitPaymentHeaderAdapter;
@@ -181,8 +183,8 @@ import java.util.Set;
         final HubAdapter.Model model =
             new HubAdapter.Model(paymentModels, summaryModels, splitHeaderModels, confirmButtonViewModels);
 
+        getView().configurePaymentMethodHeader(getExperiment());
         getView().showToolbarElementDescriptor(elementDescriptorModel);
-
         getView().configureAdapters(paymentSettingRepository.getSite(), paymentSettingRepository.getCurrency());
         getView().updateAdapters(model);
         updateElements();
@@ -533,12 +535,8 @@ import java.util.Set;
         postDisableModelUpdate();
     }
 
-    VariantType getExperiment(@NonNull final VariantType.Variant variant) {
-        return ExperimentHelper
-            .INSTANCE
-            .getVariantFrom(
-                variant,
-                experimentsRepository.getExperiments()
-            );
+    private List<Variant> getExperiment() {
+        return ExperimentHelper.INSTANCE
+            .getVariantsFrom(experimentsRepository.getExperiments(), new PulseVariant(), new BadgeVariant());
     }
 }

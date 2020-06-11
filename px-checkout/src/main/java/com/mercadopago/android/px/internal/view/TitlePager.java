@@ -1,13 +1,14 @@
 package com.mercadopago.android.px.internal.view;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import com.mercadopago.android.px.R;
-import com.mercadopago.android.px.internal.experiments.VariantType;
+import com.mercadopago.android.px.internal.experiments.Variant;
 import com.mercadopago.android.px.internal.features.express.slider.ViewAdapter;
 import com.mercadopago.android.px.internal.viewmodel.GoingToModel;
 
@@ -34,11 +35,10 @@ public class TitlePager extends FrameLayout implements ViewTreeObserver.OnGlobal
         inflate(context, R.layout.px_view_title_pager, this);
     }
 
-    // pulse, badge
-    public void setExperimentVariant(VariantType variantType) {
-        ((PaymentMethodDescriptorView)previousView).configureExperiment(variantType);
-        ((PaymentMethodDescriptorView)currentView).configureExperiment(variantType);
-        ((PaymentMethodDescriptorView)nextView).configureExperiment(variantType);
+    public void setBadgeExperimentVariant(@NonNull final Variant variant) {
+        ((PaymentMethodDescriptorView)previousView).configureExperiment(variant);
+        ((PaymentMethodDescriptorView)currentView).configureExperiment(variant);
+        ((PaymentMethodDescriptorView)nextView).configureExperiment(variant);
     }
 
     @Override
