@@ -13,6 +13,7 @@ import com.mercadopago.android.px.internal.repository.ChargeRepository;
 import com.mercadopago.android.px.internal.repository.CongratsRepository;
 import com.mercadopago.android.px.internal.repository.DisabledPaymentMethodRepository;
 import com.mercadopago.android.px.internal.repository.DiscountRepository;
+import com.mercadopago.android.px.internal.repository.ExperimentsRepository;
 import com.mercadopago.android.px.internal.repository.InitRepository;
 import com.mercadopago.android.px.internal.repository.PayerComplianceRepository;
 import com.mercadopago.android.px.internal.repository.PayerCostSelectionRepository;
@@ -50,6 +51,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyListOf;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -120,6 +122,9 @@ public class ExpressPaymentPresenterTest {
     private CongratsRepository congratsRepository;
 
     @Mock
+    private ExperimentsRepository experimentsRepository;
+
+    @Mock
     private PayerComplianceRepository payerComplianceRepository;
 
     @Mock
@@ -154,7 +159,7 @@ public class ExpressPaymentPresenterTest {
             new ExpressPaymentPresenter(paymentRepository, paymentSettingRepository, disabledPaymentMethodRepository,
                 payerCostSelectionRepository, discountRepository, amountRepository, initRepository,
                 amountConfigurationRepository, chargeRepository, escManagerBehaviour, paymentMethodDrawableItemMapper,
-                congratsRepository, payerComplianceRepository, sessionIdProvider, flowIdProvider,
+                congratsRepository, experimentsRepository, payerComplianceRepository, sessionIdProvider, flowIdProvider,
                 mock(PaymentMethodDescriptorMapper.class));
 
         verifyAttachView();
@@ -239,6 +244,7 @@ public class ExpressPaymentPresenterTest {
     private void verifyAttachView() {
         expressPaymentPresenter.attachView(view);
 
+        verify(view).configurePaymentMethodHeader(anyList());
         verify(view).showToolbarElementDescriptor(any(ElementDescriptorView.Model.class));
         verify(view).updateAdapters(any(HubAdapter.Model.class));
         verify(view).updateViewForPosition(anyInt(), anyInt(), any(SplitSelectionState.class));
